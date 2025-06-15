@@ -40,3 +40,5 @@ loguru
 PyPDF2
 spaces
 requests
+
+streamlit
