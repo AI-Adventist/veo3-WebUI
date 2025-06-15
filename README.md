@@ -1,5 +1,5 @@
 ---
-title: VEO3 Free (mirror)
+title: VEO3 Directors
 emoji: 🔊
 colorFrom: blue
 colorTo: indigo
