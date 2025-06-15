@@ -34,3 +34,9 @@ open_clip_torch
 soundfile
 av
 
+gradio
+pandas
+loguru
+PyPDF2
+spaces
+requests
