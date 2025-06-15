@@ -1,0 +1,139 @@
+{
+  
+  "Video_Format": [
+    "Retro Pop Art Commercial", "Purple Synthwave Music Video", "Minimal Brand Film",
+    "High Fashion Runway Ad", "Hip-Hop Live Performance", "Ultra-Short Minimal Ad",
+    "Animated Movie Trailer", "Epic Music Video", "Hyperrealistic Product Ad",
+    "Metaverse Shorts Content", "Dark Noir Music Video", "Brand Logo Animation",
+    "Viral Challenge Shorts", "Disco Ball Party MV", "Experimental Art Film Ad",
+    "Glitch Effect Highlights", "ASMR Brand Experience Ad", "Teaser Campaign Preview",
+    "Emotional Ballad Music Video", "Dark Synth-Pop Shorts", "360° VR Experience",
+    "Interactive Web Ad", "Stop-Motion Animation", "Timelapse Documentary",
+    "Slow-Motion Action Sequence", "Drone Cinematic Footage", "Unboxing Review Content",
+    "Motion Graphics Infographic", "Live Stream Highlights", "Vertical Story Ad",
+    "Cinemagraph Loop Video", "Lyric Video Typography", "Behind-the-Scenes Documentary",
+    "Tutorial How-To Video", "Reaction Compilation"
+  ],
+  
+  "Genre": [
+    "Neo-Noir (Dark Urban Crime)", "Dieselpunk (1940s Machine Aesthetic)", "Gothic Horror (Medieval Terror)",
+    "Romantic Comedy (Sweet Love Comedy)", "High Fantasy (Magic and Dragons)", "Cyberpunk Thriller (Future Hacking Action)",
+    "Adventure Action (Jungle Exploration)", "Steampunk Western (Steam Engine Western)", "War Drama (Battlefield Human Drama)",
+    "Post-Apocalyptic (After the End)", "Black Comedy Crime", "Near-Future Techno-Thriller",
+    "Urban Fantasy (Modern Magic)", "Cozy Mystery (Warm Detective Story)", "Survival Action (Struggle for Life)",
+    "Dark Fantasy (Brutal Magic World)", "Surrealist Comedy", "Period Romance Drama", "Bizarre Horror (Grotesque Terror)",
+    "Dystopian Sci-Fi (Dark Future)", "Space Opera (Cosmic Epic)", "Mystery Thriller",
+    "Fantasy Romance", "Psychological Horror", "Action Comedy", "Historical Fantasy", "Biopunk (Bioengineering Sci-Fi)",
+    "Musical Drama", "Detective Noir", "Time Loop Story", "Zombie Apocalypse", "Magical Girl",
+    "Mecha Action", "Mythological Fantasy", "Medical Drama"
+  ],
+  
+  "Setting": [
+    "Crystal Clear Sea Station", "Crescent Desert Marketplace", "Crimson Forest Hot Springs",
+    "Milky Way Space Station", "Jade Waterfall Canyon", "Bottomless Abyss Cave",
+    "Floating Sky Garden City", "Hidden Glacier Base", "Ghost Ship Island Lighthouse",
+    "Steel Canal Network", "Rainbow Bloom Meadow", "Eternal Mist Pond",
+    "Cherry Blossom Harbor", "Lava Flow Valley", "Giant Glass Dome Greenhouse",
+    "Sky Train Railway", "Deep Sea Space Portal", "Scorpion Red Plateau",
+    "Blue Sand Beach", "Moonlit Crystal Castle", "Neon Underground City",
+    "Abandoned Amusement Park", "Floating Island Archipelago", "Frozen Time Library", "Bioluminescent Forest",
+    "Steam Geyser Plains", "Ancient Temple Ruins", "Vertical Cliff City",
+    "Submerged Lost City", "Desert Oasis Palace", "Arctic Aurora Observatory", "Volcanic Crater Village",
+    "Giant Tree Canopy City", "Underground Crystal Cavern", "Levitating Laboratory"
+  ],
+  
+  "Era_Time": [
+    "2100 Dawn Dam City", "1920s Jazz Age Meteor Night", "Ice Age Final Twilight",
+    "Bronze Age First Dawn", "Neo-Baroque Future Nightscape", "Electronic Era Noon Sun",
+    "1980s Neon Night", "Medieval Castle Foggy Morning", "Ultra-Ancient Civilization Sunrise",
+    "Post-WW3 Twilight", "Post-Internet Era Dawn", "Cold War Tense Morning",
+    "Renaissance Golden Noon", "Time-Twisted Chaos Future", "Dark Age Final Sunset",
+    "Carbon-Neutral Dawn", "AI-Ruled 22nd Century Noon", "Modular City Era Morning",
+    "Sky City Civilization Night", "Steam Revolution Dawn", "Cybernetic Renaissance",
+    "Quantum Computer Midnight", "Hologram Civilization Dusk", "Nanotech Revolution", "Gene-Edit Era",
+    "Space Colony Pioneer Age", "VR Integration Era", "Telepathy Civilization Dawn", "Time Travel Commercial Era",
+    "Anti-Gravity City Age", "Consciousness Upload Era", "Interplanetary Trade Era", "Dimension Travel Era",
+    "Immortality Age", "Memory Sharing Era"
+  ],
+  
+  "Subject_Object": [
+    "Light-Eating Quantum Jellyfish", "Steam-Powered Turtle Ship", "Starlight Racing Bicycle",
+    "Plasma Blooming Flower", "Silver Aurora Whale", "Time-Recording Coral",
+    "Memory-Capturing Camera", "Wind-Playing Piano", "Gravity-Blocking Umbrella",
+    "Wish-Granting Magic Lamp", "Dream-Eating Phantom Whale", "Solar-Powered Chess Piece",
+    "Ghost-Opening Golden Key", "Illusion-Showing Library", "Destiny-Pointing Compass",
+    "Magic-Playing Violin", "Infinite-Filling Goblin Mug", "Electric Möbius Loop",
+    "Star-Flying Paper Plane", "Holographic Love Letter", "Emotion-Color Prism",
+    "Time-Reversing Hourglass", "Soul-Containing Glass Bottle", "Dimension-Opening Mirror", "Mind-Reading Glasses",
+    "Weather-Controlling Staff", "Gravity-Defying Orb", "Sound-Storing Seashell",
+    "Light-Weaving Loom", "Memory-Planting Seed", "Emotion-Playing Harp", "Time-Freezing Snowflake",
+    "Fate-Weaving Thread", "Dream-Painting Brush", "Soul-Illuminating Lantern"
+  ],
+  
+  "Mood_Tone": [
+    "Dreamlike and Mysterious", "Grand and Majestic", "Thrilling and Tense", "Cheerful and Light",
+    "Tragic and Sorrowful", "Nostalgic and Wistful", "Warm and Cozy", "Eerie and Creepy",
+    "Emotional and Lyrical", "Urgent and Pressing", "Calm and Meditative", "Hopeful and Bright",
+    "Dark and Gloomy", "Dazzling and Spectacular", "Brutal and Violent", "Poetic and Beautiful",
+    "Playful and Lively", "Lonely and Desolate", "Dynamic and Energetic", "Ominous and Unsettling",
+    "Mystical and Transcendent", "Whimsical and Mischievous", "Solemn and Serious", "Chaotic and Confused",
+    "Peaceful and Serene", "Passionate and Intense", "Bizarre and Uncanny", "Romantic and Sweet",
+    "Cynical and Cold", "Fantastical and Magical", "Apocalyptic and Prophetic", "Comic and Humorous",
+    "Sublime and Sacred", "Manic and Frenzied", "Elegant and Sophisticated"
+  ],
+  
+  "Aesthetic_Style": [
+    "Chrome-Plated Retrofuture", "Purple Neon Vaporwave", "Golden Age Art Deco", "Eco-Friendly Solarpunk",
+    "Minimalist Retro Design", "Pixel Art Neo-Classic", "Bio-Mechanical Fusion", "Paper Craft Miniature",
+    "Neon Oriental", "Hyperrealistic Detail", "Street Art Graffiti", "Cartoon Cel-Shading",
+    "Jewel-Like Glamour", "Low-Fi Visual", "Natural Dye Pastel", "Blooming Flower Punk",
+    "Metaverse Glitch Art", "Thick Brush Impasto", "Blueprint Technical Drawing", "Apocalyptic Hardcore",
+    "Holographic Rainbow", "Monochrome Noir", "Psychedelic Fluorescent", "Stained Glass Mosaic",
+    "Watercolor Bleed", "Brutalist Concrete", "Art Nouveau Curves", "Cubist Geometry", "Baroque Ornamental",
+    "Minimal Scandinavian", "Maximalist Over-decoration", "Glitter Sparkle", "Paper-Cut Silhouette",
+    "Negative Space", "Duotone Color"
+  ],
+  
+  "Phenomenon": [
+    "Golden Meteor Shower Night", "Time-Frozen Moment", "Gravity-Reversed Storm", "Moonlight Fountain",
+    "Starlight Waterfall", "Dimensional Rift", "Ruby Aurora", "Blue Sunset",
+    "Form-Creating Phantom Fog", "Teleporting Flames", "Double Rainbow Sky", "Thunder Snow",
+    "Sky-Swimming Whale", "Time-Flowing Backward", "Light Wave Beach",
+    "Supernova Light Beam", "Rainbow Lightning", "Cold Ice Fire", "Magnetic Rain",
+    "Ether Matter Vortex", "Levitating Water Drops", "Sound-to-Light Phenomenon", "Shadow Materialization",
+    "Memory Materialization", "Emotion Aurora Colors", "Gravity Wave Ripples",
+    "Space-Time Folding", "Light-Bending Mirage", "Sound Wave Formations", "Electric Tree Growth",
+    "Quantum Entanglement Visualization", "Dimension Collision", "Time Crystal Formation", "Consciousness Energy Glow",
+    "Dream-to-Reality Projection"
+  ],
+  
+  "Theme_Conflict": [
+    "Journey to Find Lost Memories", "AI vs Human Ethics Clash", "Liberation of True Self",
+    "Extreme Survival Competition", "Technology-Dependent Future", "Lust for Absolute Power",
+    "Forbidden Love Across Classes", "Sacrifice to Save Others", "Identity Search - Who Am I",
+    "Endless Chain of Revenge", "Resistance Against Predestined Fate", "Balance of Nature and Civilization",
+    "Human Community Solidarity", "Class Society Inequality Struggle", "Harmonious Coexistence with Nature",
+    "Conflict Between Betrayal and Loyalty", "Anxiety About Uncertain Future", "Time to Atone for Past Sins",
+    "Explosion of Suppressed Emotions", "Quest for Hidden Truth", "Generational Values Clash", "Tradition vs Innovation",
+    "Individual vs Collective", "Choice Between Love and Duty", "Balance of Freedom and Security", "Humanity vs Efficiency",
+    "Gap Between Ideal and Reality", "Crossroads of Belief and Compromise", "Science vs Religion", "Desire vs Conscience",
+    "Balance of Change and Preservation", "Choice of Individuality vs Conformity", "Border of Hope and Despair", "Cycle of Creation and Destruction",
+    "Duality of Connection and Isolation"
+  ],
+  
+  "Composite_Pattern": [
+    "Steam-Powered Underwater Palace", "Silver Aurora Whale's Journey", "1920s Jazz Bar Meteor Party",
+    "Diesel Engine Sand Castle", "Blue Sunset Neon Harbor", "Gothic Cathedral Midnight Horror Ritual",
+    "Zero-Gravity Garden Romance", "Ice Dragon's High Fantasy Castle", "Hologram Hacker Cyber Chase",
+    "Neon Dream Train Station", "Cloud Temple Treasure Hunt", "Post-Nuclear Wasteland Caravan",
+    "Surveillance Dome Dystopia", "Galactic Warship Space Battle", "Antique Bookstore Cozy Mystery",
+    "Glacier Cave Survival Fight", "Starlight Cabin Retro Party", "Dark Forest Witch's Curse",
+    "Time-Twisted Surreal Village", "Lotus Lake Historical Romance", "Quantum Maze Dimension Chase",
+    "Crystal City Magic War", "Steam Airship Sky Pirates", "Bio-Dome Lab Mutations",
+    "Hologram Theater Virtual Show", "Time Garden Parallel Meeting", "Nanobot Army Micro War",
+    "Consciousness Network Digital Escape", "Gravity-Reversed City Action Chase", "Memory Museum Past Travel",
+    "Emotion Market Soul Trade", "Dream Factory Nightmare Production", "Dimension Crossroads World Collision",
+    "Energy Waterfall Magic Ritual", "Time Crystal Mine Treasure Battle"
+  ]
+
+}
