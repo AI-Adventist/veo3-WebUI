@@ -1,5 +1,5 @@
 ---
-title: VEO3 Free
+title: VEO3 Free (mirror)
 emoji: 🔊
 colorFrom: blue
 colorTo: indigo
