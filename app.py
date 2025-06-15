@@ -905,16 +905,26 @@ with gr.Blocks(css=css, theme=gr.themes.Soft(), title="VEO3 Directors") as demo:
         </div>
     """)
     
-    gr.HTML("""
-        <div class="badge-container">
+
+
+        gr.HTML("""
+        <div class="badge-container"
+        style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; align-items:center;">
+
             <a href="https://huggingface.co/spaces/ginigen/VEO3-Free" target="_blank">
-                <img src="https://img.shields.io/static/v1?label=Original&message=VEO3%20Free&color=%230000ff&labelColor=%23800080&logo=huggingface&logoColor=%23ffa500&style=for-the-badge" alt="badge">
+                <img src="https://img.shields.io/static/v1?label=Text%20to%20Video%2BAudio&message=VEO3%20free&color=%230000ff&labelColor=%23800080&logo=huggingface&logoColor=%23ffa500&style=for-the-badge" alt="badge">
+            </a>
+            <a href="https://huggingface.co/spaces/ginigen/VEO3-Free-mirror" target="_blank">
+                <img src="https://img.shields.io/static/v1?label=Text%20to%20Video%2BAudio&message=VEO3%20free%28mirror%29&color=%230000ff&labelColor=%23800080&logo=huggingface&logoColor=%23ffa500&style=for-the-badge" alt="badge">
+            </a>
+            <a href="https://huggingface.co/spaces/ginigen/VEO3-Directors" target="_blank">
+                <img src="https://img.shields.io/static/v1?label=DIRECTORS&message=VEO3&color=%23ffd700&labelColor=%23000080&logo=huggingface&logoColor=%23ffa500&style=for-the-badge" alt="badge">
             </a>
             <a href="https://discord.gg/openfreeai" target="_blank">
                 <img src="https://img.shields.io/static/v1?label=Discord&message=Openfree%20AI&color=%230000ff&labelColor=%23800080&logo=discord&logoColor=%23ffa500&style=for-the-badge" alt="badge">
             </a>
         </div>
-    """)
+        """)
     
     with gr.Tabs():
         # ────────────── Tab 1: Story & Script Generation ──────────────
