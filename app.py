@@ -197,25 +197,65 @@ TOPIC_DICT_EN = load_json_dict("story_en.json", DEFAULT_TOPICS_EN_DICT)
 CATEGORY_LIST = list(TOPIC_DICT_KO.keys())
 
 # ────────────────────────────────────────────────────────────────
-# 4. Initialize Video Models
+# 4. Global Model Variables (Will be initialized in GPU functions)
 # ────────────────────────────────────────────────────────────────
-vae = AutoencoderKLWan.from_pretrained(MODEL_ID, subfolder="vae", torch_dtype=torch.float32)
-wan_path = hf_hub_download(repo_id=SUB_MODEL_ID, filename=SUB_MODEL_FILENAME)
-transformer = NagWanTransformer3DModel.from_single_file(wan_path, torch_dtype=torch.bfloat16)
-pipe = NAGWanPipeline.from_pretrained(
-    MODEL_ID, vae=vae, transformer=transformer, torch_dtype=torch.bfloat16
-)
-pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config, flow_shift=5.0)
-pipe.to("cuda")
+# Video models
+vae = None
+transformer = None
+pipe = None
 
-pipe.transformer.__class__.attn_processors = NagWanTransformer3DModel.attn_processors
-pipe.transformer.__class__.set_attn_processor = NagWanTransformer3DModel.set_attn_processor
-pipe.transformer.__class__.forward = NagWanTransformer3DModel.forward
+# Audio models
+audio_net = None
+audio_feature_utils = None
+audio_seq_cfg = None
+
+# Model initialization flags
+video_models_initialized = False
+audio_models_initialized = False
 
 # ────────────────────────────────────────────────────────────────
-# 5. Initialize Audio Model
+# 5. Model Initialization Functions (Called inside GPU functions)
 # ────────────────────────────────────────────────────────────────
-def get_mmaudio_model() -> tuple[MMAudio, FeaturesUtils, SequenceConfig]:
+def initialize_video_models():
+    """Initialize video generation models - must be called inside GPU function"""
+    global vae, transformer, pipe, video_models_initialized
+    
+    if video_models_initialized:
+        return
+    
+    logger.info("Initializing video models inside GPU function...")
+    
+    # Initialize VAE
+    vae = AutoencoderKLWan.from_pretrained(MODEL_ID, subfolder="vae", torch_dtype=torch.float32)
+    
+    # Download and initialize transformer
+    wan_path = hf_hub_download(repo_id=SUB_MODEL_ID, filename=SUB_MODEL_FILENAME)
+    transformer = NagWanTransformer3DModel.from_single_file(wan_path, torch_dtype=torch.bfloat16)
+    
+    # Initialize pipeline
+    pipe = NAGWanPipeline.from_pretrained(
+        MODEL_ID, vae=vae, transformer=transformer, torch_dtype=torch.bfloat16
+    )
+    pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config, flow_shift=5.0)
+    pipe.to("cuda")
+    
+    # Set attn processors
+    pipe.transformer.__class__.attn_processors = NagWanTransformer3DModel.attn_processors
+    pipe.transformer.__class__.set_attn_processor = NagWanTransformer3DModel.set_attn_processor
+    pipe.transformer.__class__.forward = NagWanTransformer3DModel.forward
+    
+    video_models_initialized = True
+    logger.info("Video models initialized successfully")
+
+def initialize_audio_models():
+    """Initialize audio generation models - must be called inside GPU function"""
+    global audio_net, audio_feature_utils, audio_seq_cfg, audio_models_initialized
+    
+    if audio_models_initialized:
+        return
+    
+    logger.info("Initializing audio models inside GPU function...")
+    
     seq_cfg = audio_model_config.seq_cfg
     
     net: MMAudio = get_my_mmaudio(audio_model_config.model_name).to(device, dtype).eval()
@@ -230,9 +270,11 @@ def get_mmaudio_model() -> tuple[MMAudio, FeaturesUtils, SequenceConfig]:
                                   need_vae_encoder=False)
     feature_utils = feature_utils.to(device, dtype).eval()
     
-    return net, feature_utils, seq_cfg
-
-audio_net, audio_feature_utils, audio_seq_cfg = get_mmaudio_model()
+    audio_net = net
+    audio_feature_utils = feature_utils
+    audio_seq_cfg = seq_cfg
+    audio_models_initialized = True
+    logger.info("Audio models initialized successfully")
 
 # ────────────────────────────────────────────────────────────────
 # 6. Story Seed Functions
@@ -345,9 +387,13 @@ Write all elements as one flowing paragraph that video creators can immediately 
 # ────────────────────────────────────────────────────────────────
 # 8. Video/Audio Generation Functions
 # ────────────────────────────────────────────────────────────────
+@spaces.GPU()
 @torch.inference_mode()
 def add_audio_to_video(video_path, prompt, audio_negative_prompt, audio_steps, audio_cfg_strength, duration):
     """Generate and add audio to video using MMAudio"""
+    # Initialize audio models if needed
+    initialize_audio_models()
+    
     rng = torch.Generator(device=device)
     rng.seed()
     fm = FlowMatching(min_sigma=0, inference_mode='euler', num_steps=audio_steps)
@@ -393,6 +439,9 @@ def generate_video_with_audio(
         enable_audio=True, audio_negative_prompt=DEFAULT_AUDIO_NEGATIVE_PROMPT,
         audio_steps=25, audio_cfg_strength=4.5,
 ):
+    # Initialize video models if needed
+    initialize_video_models()
+    
     target_h = max(MOD_VALUE, (int(height) // MOD_VALUE) * MOD_VALUE)
     target_w = max(MOD_VALUE, (int(width) // MOD_VALUE) * MOD_VALUE)
     
