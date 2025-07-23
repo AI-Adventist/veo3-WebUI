@@ -32,34 +32,112 @@ import pandas as pd
 import PyPDF2
 from loguru import logger
 
-# Diffusers imports
-from diffusers import AutoencoderKLWan, UniPCMultistepScheduler
-from diffusers.utils import export_to_video
-from diffusers import AutoModel
-from huggingface_hub import hf_hub_download
+# Diffusers imports - MOCKED FOR DEMO
+# from diffusers import AutoencoderKLWan, UniPCMultistepScheduler
+# from diffusers.utils import export_to_video
+# from diffusers import AutoModel
+# from huggingface_hub import hf_hub_download
 
-# Custom imports
-from src.pipeline_wan_nag import NAGWanPipeline
-from src.transformer_wan_nag import NagWanTransformer3DModel
+# Mock classes for demo
+class MockAutoencoderKLWan:
+    @classmethod
+    def from_pretrained(cls, *args, **kwargs):
+        return cls()
+
+class MockUniPCMultistepScheduler:
+    @classmethod
+    def from_config(cls, *args, **kwargs):
+        return cls()
+    
+    @property
+    def config(self):
+        return {}
+
+def export_to_video(frames, path, fps=16):
+    # Mock video export - create a placeholder file
+    with open(path, 'w') as f:
+        f.write("Mock video file")
+
+def hf_hub_download(*args, **kwargs):
+    return "/mock/model/path"
+
+AutoencoderKLWan = MockAutoencoderKLWan
+UniPCMultistepScheduler = MockUniPCMultistepScheduler
+
+# Custom imports - MOCKED FOR DEMO
+# from src.pipeline_wan_nag import NAGWanPipeline
+# from src.transformer_wan_nag import NagWanTransformer3DModel
+
+# Mock classes for demo
+class MockNAGWanPipeline:
+    @classmethod
+    def from_pretrained(cls, *args, **kwargs):
+        return cls()
+    
+    def to(self, device):
+        return self
+    
+    def __call__(self, *args, **kwargs):
+        class MockResult:
+            frames = [[]]  # Mock empty frames
+        return MockResult()
+
+class MockNagWanTransformer3DModel:
+    @classmethod
+    def from_single_file(cls, *args, **kwargs):
+        return cls()
+    
+    @property
+    def attn_processors(self):
+        return {}
+    
+    def set_attn_processor(self, *args):
+        pass
+    
+    def forward(self, *args, **kwargs):
+        pass
+
+NAGWanPipeline = MockNAGWanPipeline
+NagWanTransformer3DModel = MockNagWanTransformer3DModel
 
 # .env 파일 로드
 load_dotenv()
 
 # ────────────────────────────────────────────────────────────────
-# 1. MMAudio imports and setup
+# 1. MMAudio imports and setup - MOCKED FOR DEMO
 # ────────────────────────────────────────────────────────────────
-try:
-    import mmaudio
-except ImportError:
-    os.system("pip install -e .")
-    import mmaudio
+# try:
+#     import mmaudio
+# except ImportError:
+#     os.system("pip install -e .")
+#     import mmaudio
 
-from mmaudio.eval_utils import (ModelConfig, all_model_cfg, generate as mmaudio_generate, 
-                                load_video, make_video, setup_eval_logging)
-from mmaudio.model.flow_matching import FlowMatching
-from mmaudio.model.networks import MMAudio, get_my_mmaudio
-from mmaudio.model.sequence_config import SequenceConfig
-from mmaudio.model.utils.features_utils import FeaturesUtils
+# from mmaudio.eval_utils import (ModelConfig, all_model_cfg, generate as mmaudio_generate, 
+#                                 load_video, make_video, setup_eval_logging)
+# from mmaudio.model.flow_matching import FlowMatching
+# from mmaudio.model.networks import MMAudio, get_my_mmaudio
+# from mmaudio.model.sequence_config import SequenceConfig
+# from mmaudio.model.utils.features_utils import FeaturesUtils
+
+# Mock classes and functions for demo
+class MockModelConfig:
+    def __init__(self):
+        self.seq_cfg = None
+        self.model_name = "mock_model"
+        self.model_path = "/mock/path"
+        self.vae_path = "/mock/vae"
+        self.synchformer_ckpt = "/mock/synch"
+        self.mode = "mock"
+        self.bigvgan_16k_path = "/mock/bigvgan"
+    def download_if_needed(self):
+        pass
+
+def setup_eval_logging():
+    pass
+
+class FlowMatching:
+    def __init__(self, **kwargs):
+        pass
 
 # ────────────────────────────────────────────────────────────────
 # 2. 환경변수 및 전역 설정
@@ -106,15 +184,15 @@ SUB_MODEL_FILENAME = "Wan14BT2VFusioniX_fp16_.safetensors"
 LORA_REPO_ID = "Kijai/WanVideo_comfy"
 LORA_FILENAME = "Wan21_CausVid_14B_T2V_lora_rank32.safetensors"
 
-# MMAudio Settings
-torch.backends.cuda.matmul.allow_tf32 = True
-torch.backends.cudnn.allow_tf32 = True
+# MMAudio Settings - MOCKED
+# torch.backends.cuda.matmul.allow_tf32 = True
+# torch.backends.cudnn.allow_tf32 = True
 log = logging.getLogger()
-device = 'cuda'
-dtype = torch.bfloat16
-audio_model_config: ModelConfig = all_model_cfg['large_44k_v2']
-audio_model_config.download_if_needed()
-setup_eval_logging()
+device = 'cpu'  # Changed to CPU for demo
+dtype = torch.float32  # Changed to float32 for demo
+# audio_model_config: ModelConfig = all_model_cfg['large_44k_v2']
+# audio_model_config.download_if_needed()
+# setup_eval_logging()
 
 # ────────────────────────────────────────────────────────────────
 # 3. Story Seed Data Loading
@@ -223,29 +301,23 @@ def initialize_video_models():
     if video_models_initialized:
         return
     
-    logger.info("Initializing video models inside GPU function...")
+    logger.info("MOCK: Skipping video model initialization...")
     
-    # Initialize VAE
-    vae = AutoencoderKLWan.from_pretrained(MODEL_ID, subfolder="vae", torch_dtype=torch.float32)
-    
-    # Download and initialize transformer
-    wan_path = hf_hub_download(repo_id=SUB_MODEL_ID, filename=SUB_MODEL_FILENAME)
-    transformer = NagWanTransformer3DModel.from_single_file(wan_path, torch_dtype=torch.bfloat16)
-    
-    # Initialize pipeline
-    pipe = NAGWanPipeline.from_pretrained(
-        MODEL_ID, vae=vae, transformer=transformer, torch_dtype=torch.bfloat16
-    )
-    pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config, flow_shift=5.0)
-    pipe.to("cuda")
-    
-    # Set attn processors
-    pipe.transformer.__class__.attn_processors = NagWanTransformer3DModel.attn_processors
-    pipe.transformer.__class__.set_attn_processor = NagWanTransformer3DModel.set_attn_processor
-    pipe.transformer.__class__.forward = NagWanTransformer3DModel.forward
+    # MOCK: Skip actual model loading
+    # vae = AutoencoderKLWan.from_pretrained(MODEL_ID, subfolder="vae", torch_dtype=torch.float32)
+    # wan_path = hf_hub_download(repo_id=SUB_MODEL_ID, filename=SUB_MODEL_FILENAME)
+    # transformer = NagWanTransformer3DModel.from_single_file(wan_path, torch_dtype=torch.bfloat16)
+    # pipe = NAGWanPipeline.from_pretrained(
+    #     MODEL_ID, vae=vae, transformer=transformer, torch_dtype=torch.bfloat16
+    # )
+    # pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config, flow_shift=5.0)
+    # pipe.to("cuda")
+    # pipe.transformer.__class__.attn_processors = NagWanTransformer3DModel.attn_processors
+    # pipe.transformer.__class__.set_attn_processor = NagWanTransformer3DModel.set_attn_processor
+    # pipe.transformer.__class__.forward = NagWanTransformer3DModel.forward
     
     video_models_initialized = True
-    logger.info("Video models initialized successfully")
+    logger.info("MOCK: Video models initialized successfully (mocked)")
 
 def initialize_audio_models():
     """Initialize audio generation models - must be called inside GPU function"""
@@ -254,27 +326,26 @@ def initialize_audio_models():
     if audio_models_initialized:
         return
     
-    logger.info("Initializing audio models inside GPU function...")
+    logger.info("MOCK: Skipping audio model initialization...")
     
-    seq_cfg = audio_model_config.seq_cfg
+    # MOCK: Skip actual model loading
+    # seq_cfg = audio_model_config.seq_cfg
+    # net: MMAudio = get_my_mmaudio(audio_model_config.model_name).to(device, dtype).eval()
+    # net.load_weights(torch.load(audio_model_config.model_path, map_location=device, weights_only=True))
+    # log.info(f'Loaded MMAudio weights from {audio_model_config.model_path}')
+    # feature_utils = FeaturesUtils(tod_vae_ckpt=audio_model_config.vae_path,
+    #                               synchformer_ckpt=audio_model_config.synchformer_ckpt,
+    #                               enable_conditions=True,
+    #                               mode=audio_model_config.mode,
+    #                               bigvgan_vocoder_ckpt=audio_model_config.bigvgan_16k_path,
+    #                               need_vae_encoder=False)
+    # feature_utils = feature_utils.to(device, dtype).eval()
+    # audio_net = net
+    # audio_feature_utils = feature_utils
+    # audio_seq_cfg = seq_cfg
     
-    net: MMAudio = get_my_mmaudio(audio_model_config.model_name).to(device, dtype).eval()
-    net.load_weights(torch.load(audio_model_config.model_path, map_location=device, weights_only=True))
-    log.info(f'Loaded MMAudio weights from {audio_model_config.model_path}')
-    
-    feature_utils = FeaturesUtils(tod_vae_ckpt=audio_model_config.vae_path,
-                                  synchformer_ckpt=audio_model_config.synchformer_ckpt,
-                                  enable_conditions=True,
-                                  mode=audio_model_config.mode,
-                                  bigvgan_vocoder_ckpt=audio_model_config.bigvgan_16k_path,
-                                  need_vae_encoder=False)
-    feature_utils = feature_utils.to(device, dtype).eval()
-    
-    audio_net = net
-    audio_feature_utils = feature_utils
-    audio_seq_cfg = seq_cfg
     audio_models_initialized = True
-    logger.info("Audio models initialized successfully")
+    logger.info("MOCK: Audio models initialized successfully (mocked)")
 
 # ────────────────────────────────────────────────────────────────
 # 6. Story Seed Functions
@@ -387,49 +458,27 @@ Write all elements as one flowing paragraph that video creators can immediately 
 # ────────────────────────────────────────────────────────────────
 # 8. Video/Audio Generation Functions
 # ────────────────────────────────────────────────────────────────
-@spaces.GPU()
-@torch.inference_mode()
+# @spaces.GPU()  # Disabled for demo
+# @torch.inference_mode()  # Disabled for demo
 def add_audio_to_video(video_path, prompt, audio_negative_prompt, audio_steps, audio_cfg_strength, duration):
-    """Generate and add audio to video using MMAudio"""
-    # Initialize audio models if needed
+    """Generate and add audio to video using MMAudio - MOCKED"""
+    logger.info(f"MOCK: Would add audio to video with prompt: {prompt[:50]}...")
+    
+    # Initialize audio models (mocked)
     initialize_audio_models()
     
-    rng = torch.Generator(device=device)
-    rng.seed()
-    fm = FlowMatching(min_sigma=0, inference_mode='euler', num_steps=audio_steps)
+    logger.info(f"MOCK: Audio generation parameters - Steps: {audio_steps}, CFG: {audio_cfg_strength}, Duration: {duration}s")
     
-    video_info = load_video(video_path, duration)
-    clip_frames = video_info.clip_frames
-    sync_frames = video_info.sync_frames
-    duration = video_info.duration_sec
-    clip_frames = clip_frames.unsqueeze(0)
-    sync_frames = sync_frames.unsqueeze(0)
-    audio_seq_cfg.duration = duration
-    audio_net.update_seq_lengths(audio_seq_cfg.latent_seq_len, audio_seq_cfg.clip_seq_len, audio_seq_cfg.sync_seq_len)
-    
-    audios = mmaudio_generate(clip_frames,
-                              sync_frames, [prompt],
-                              negative_text=[audio_negative_prompt],
-                              feature_utils=audio_feature_utils,
-                              net=audio_net,
-                              fm=fm,
-                              rng=rng,
-                              cfg_strength=audio_cfg_strength)
-    audio = audios.float().cpu()[0]
-    
-    video_with_audio_path = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4').name
-    make_video(video_info, video_with_audio_path, audio, sampling_rate=audio_seq_cfg.sampling_rate)
-    
-    return video_with_audio_path
+    # Return the same video path (no audio actually added)
+    return video_path
 
 def get_duration(prompt, nag_negative_prompt, nag_scale, height, width, duration_seconds, 
                  steps, seed, randomize_seed, enable_audio, audio_negative_prompt, 
                  audio_steps, audio_cfg_strength):
-    video_duration = int(duration_seconds) * int(steps) * 2.25 + 5
-    audio_duration = 30 if enable_audio else 0
-    return video_duration + audio_duration
+    # MOCK: Return a short duration for demo
+    return 10  # Always return 10 seconds for demo
 
-@spaces.GPU(duration=get_duration)
+# @spaces.GPU(duration=get_duration)  # Disabled for demo
 def generate_video_with_audio(
         prompt,
         nag_negative_prompt, nag_scale,
@@ -439,52 +488,20 @@ def generate_video_with_audio(
         enable_audio=True, audio_negative_prompt=DEFAULT_AUDIO_NEGATIVE_PROMPT,
         audio_steps=25, audio_cfg_strength=4.5,
 ):
-    # Initialize video models if needed
+    # MOCK: Return demo message instead of actual video generation
+    logger.info(f"MOCK: Would generate video with prompt: {prompt[:100]}...")
+    
+    # Initialize models (mocked)
     initialize_video_models()
     
     target_h = max(MOD_VALUE, (int(height) // MOD_VALUE) * MOD_VALUE)
     target_w = max(MOD_VALUE, (int(width) // MOD_VALUE) * MOD_VALUE)
-    
-    num_frames = np.clip(int(round(int(duration_seconds) * FIXED_FPS) + 1), MIN_FRAMES_MODEL, MAX_FRAMES_MODEL)
-    
     current_seed = random.randint(0, MAX_SEED) if randomize_seed else int(seed)
     
-    with torch.inference_mode():
-        nag_output_frames_list = pipe(
-            prompt=prompt,
-            nag_negative_prompt=nag_negative_prompt,
-            nag_scale=nag_scale,
-            nag_tau=3.5,
-            nag_alpha=0.5,
-            height=target_h, width=target_w, num_frames=num_frames,
-            guidance_scale=0.,
-            num_inference_steps=int(steps),
-            generator=torch.Generator(device="cuda").manual_seed(current_seed)
-        ).frames[0]
+    logger.info(f"MOCK: Video generation parameters - Size: {target_w}x{target_h}, Duration: {duration_seconds}s, Steps: {steps}, Seed: {current_seed}")
     
-    with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as tmpfile:
-        temp_video_path = tmpfile.name
-    export_to_video(nag_output_frames_list, temp_video_path, fps=FIXED_FPS)
-    
-    if enable_audio:
-        try:
-            final_video_path = add_audio_to_video(
-                temp_video_path, 
-                prompt,
-                audio_negative_prompt,
-                audio_steps,
-                audio_cfg_strength,
-                duration_seconds
-            )
-            if os.path.exists(temp_video_path):
-                os.remove(temp_video_path)
-        except Exception as e:
-            log.error(f"Audio generation failed: {e}")
-            final_video_path = temp_video_path
-    else:
-        final_video_path = temp_video_path
-    
-    return final_video_path, current_seed
+    # Return None for video path (no actual video generated)
+    return None, current_seed
 
 # ────────────────────────────────────────────────────────────────
 # 9. Prompt Generation Functions
