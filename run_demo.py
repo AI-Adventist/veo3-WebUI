@@ -294,18 +294,18 @@ with gr.Blocks(css=css, theme=gr.themes.Soft(), title="VEO3 Directors - Demo") a
     )
 
 if __name__ == "__main__":
-    print("🎬 Starting VEO3 Directors Demo...")
-    print("📱 Demo Mode: UI functionality only")
-    print("🔗 Access the interface at: http://localhost:7860")
+    print("Starting VEO3 Directors Demo...")
+    print("Demo Mode: UI functionality only")
+    print("Access the interface at: http://localhost:7861")
     
     try:
         demo.launch(
-            server_name="0.0.0.0",
-            server_port=7860,
+            server_name="127.0.0.1",
+            server_port=7861,
             share=False,
-            debug=True
+            debug=False
         )
     except Exception as e:
-        print(f"❌ Failed to launch: {e}")
+        print(f"Failed to launch: {e}")
         print("Try installing missing dependencies:")
         print("pip install gradio pandas loguru requests")
